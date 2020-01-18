@@ -1,0 +1,6 @@
+package-lock.json
+node_modules/
+dist/
+logs/
+server/public/backups/
+server/public/uploads/csv/

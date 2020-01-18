@@ -1,0 +1,74 @@
+{
+  "_args": [
+    [
+      "csv-file-validator@1.5.0"
+    ]
+  ],
+  "_from": "csv-file-validator@1.5.0",
+  "_id": "csv-file-validator@1.5.0",
+  "_inBundle": false,
+  "_integrity": "sha512-UnQuoazVIh+2it1fje7h/9Ds494Y/kqkCWlmlkKMLTMpbPtzjnNjRjvaYZ4kO17nexReBGtKZuHs3SzjSVci9A==",
+  "_location": "/csv-file-validator",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "csv-file-validator@1.5.0",
+    "name": "csv-file-validator",
+    "escapedName": "csv-file-validator",
+    "rawSpec": "1.5.0",
+    "saveSpec": null,
+    "fetchSpec": "1.5.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/csv-file-validator/-/csv-file-validator-1.5.0.tgz",
+  "_spec": "1.5.0",
+  "_where": "./",
+  "author": {
+    "name": "Vasyl Stokolosa",
+    "email": "v.stokol@gmail.com",
+    "url": "https://github.com/shystruk"
+  },
+  "bugs": {
+    "url": "https://github.com/shystruk/csv-file-validator/issues"
+  },
+  "dependencies": {
+    "famulus": "^1.3.1",
+    "lodash": "^4.17.5",
+    "papaparse": "^4.3.7"
+  },
+  "description": "Validation of CSV file against user defined schema (returns back object with data and invalid messages)",
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "codecov.io": "^0.1.6",
+    "nyc": "^11.4.1"
+  },
+  "directories": {
+    "src": "src"
+  },
+  "homepage": "https://github.com/shystruk/csv-file-validator#readme",
+  "keywords": [
+    "csv parser",
+    "parser",
+    "validator",
+    "csv validator",
+    "csv file validator",
+    "reviewer",
+    "csv reviewer"
+  ],
+  "license": "MIT",
+  "main": "./src/csv-file-validator.js",
+  "name": "csv-file-validator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shystruk/csv-file-validator.git"
+  },
+  "scripts": {
+    "coverage": "nyc report --reporter=lcov",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
+    "test": "nyc ava --browser && npm run coverage"
+  },
+  "version": "1.5.0"
+}
