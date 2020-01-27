@@ -93,7 +93,12 @@ export default class ClassificationCtrl {
     table_data = async (req, res) => {
         try {
             var tableName = req.body.tableName;
-            var queryResp = await db.query(`select * from ${tableName}`, []);
+            var offset = req.body.paginationVar.offset;
+            var limit = req.body.paginationVar.limit;
+            var sortField = req.body.sort.field;
+            var sortDirection = req.body.sort.direction;
+
+            var queryResp = await db.query(`select * from ${tableName} offset ${offset} limit ${limit} ;`, []);
             logger.info("Tesing result -- ", queryResp);
             return res.status(200).send(this.shared.successJson(prop.S002, queryResp));
 
@@ -301,6 +306,19 @@ export default class ClassificationCtrl {
     filtertabledata = async (req, res) => {
         var table_name = req.body.tableName;
         var columns = req.body.tableColumns;
+        var sortField = req.body.sort.field;
+        var sortDirection = req.body.sort.direction;
+        var skip = req.body.paginator.skip;
+        var limit = req.body.paginator.limit;
+
+        var skipSortLmitString = ''
+        if(sortDirection == null){
+          skipSortLmitString=`offset ${skip} limit ${limit}`
+        }
+        else{
+          skipSortLmitString=`order by "${sortField}" ${sortDirection} offset ${skip} limit ${limit}`
+        }
+        logger.info("skipSortLmitString ----- ",skipSortLmitString);
         columns = '"' + columns.join('", "') + '"';
         var formData = req.body.formData;
         var filterString = []
@@ -315,16 +333,19 @@ export default class ClassificationCtrl {
 
         var whereString = filterString.join(' and ');
         logger.info("Filter string ------   ", whereString)
+        var totalCount:any;
 
         try {
             var queryResp;
             if (whereString.length > 0) {
-                queryResp = await db.query(`select ${columns} from ${table_name} where ${whereString};`, []);
+                queryResp = await db.query(`select ${columns} from ${table_name} where ${whereString} ${skipSortLmitString};`, []);
+                totalCount = await db.query(`select count(*) from ${table_name} where ${whereString};`, []);
             } else {
-                queryResp = await db.query(`select ${columns} from ${table_name};`, []);
+                queryResp = await db.query(`select ${columns} from ${table_name} ${skipSortLmitString};`, []);
+                totalCount = await db.query(`select count(*) from ${table_name};`, []);
             }
             logger.info("Tesing result -- ", queryResp);
-            return res.status(200).send(this.shared.successJson(prop.S004, queryResp));
+            return res.status(200).send(this.shared.successJson(prop.S004, {queryResp:queryResp,count:totalCount[0].count}));
 
         } catch (err) {
             logger.error("Error --- ", err)
